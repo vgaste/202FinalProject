@@ -68,11 +68,20 @@ void mainMenu()
         {
             case 1:
             cout<<"Enter the Sudoku puzzle (9x9, use 0 for empty spaces):"<<endl;
-            for(int i = 0; i < 9; i++)
+            for(int i = 0; i < 9; ++i)
             {
-                for(int j = 0; j < 9; ++j)
+                string line;
+                cout<<"Enter row "<<i + 1<<" (9 digits, use 0 for empty): ";
+                cin>>line;
+                
+                while(line.length() != 9 || any_of(line.begin(), line.end(), [](char c){ return !isdigit(c) || c < '0' || c > '9'; }))
                 {
-                    getValidInput(board[i][j]);
+                    cout << "Invalid input. Enter exactly 9 digits (0–9) for row " << i + 1 << ": ";
+                    cin >> line;
+                }
+                for(int j = 0;j < 9; ++j)
+                {
+                    board[i][j] = line[j] - '0';   
                 }
             }
             solveSudoku(board);
